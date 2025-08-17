@@ -29,7 +29,14 @@ export function LoginForm() {
     if (formData.email && formData.password) {
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("user", JSON.stringify({ email: formData.email, name: "Demo User" }))
-      router.push("/dashboard")
+      // Check if user has completed profile setup
+      const existingUser = localStorage.getItem("user")
+      const userData = existingUser ? JSON.parse(existingUser) : null
+      if (userData?.age && userData?.weight && userData?.height && userData?.sex) {
+        router.push("/dashboard")
+      } else {
+        router.push("/profile-setup")
+      }
     }
 
     setIsLoading(false)
