@@ -123,20 +123,46 @@ RESPONSE GUIDELINES:
 
     console.log("[Claude API] Calling Claude with model claude-3-5-haiku-20241022")
 
-    const result = streamText({
-      model: anthropic("claude-3-5-haiku-20241022", {
-        apiKey: process.env.ANTHROPIC_API_KEY,
-      }),
-      prompt: message.trim(),
-      system: systemPrompt,
-      temperature: 0.7,
-      maxTokens: 1200,
-    })
+    try {
+      const result = streamText({
+        model: anthropic("claude-3-5-haiku-20241022", {
+          apiKey: process.env.ANTHROPIC_API_KEY,
+        }),
+        prompt: message.trim(),
+        system: systemPrompt,
+        temperature: 0.7,
+        maxTokens: 1200,
+      })
 
-    console.log("[Claude API] Streaming response initiated")
-    return result.toTextStreamResponse()
-  } catch (error) {
+      console.log("[Claude API] Streaming response initiated")
+      return result.toTextStreamResponse()
+    } catch (apiError: any) {
+      console.error("[Claude API] API Error:", apiError)
+
+      // Handle specific API errors
+      if (apiError.message?.includes('credit balance')) {
+        const errorMessage = "I'm currently unavailable due to API credit limitations. Please try again later or contact support."
+        return new Response(errorMessage, {
+          status: 200,
+          headers: { 'Content-Type': 'text/plain' }
+        })
+      }
+
+      // Generic API error
+      const errorMessage = "I'm experiencing technical difficulties. Please try again in a moment."
+      return new Response(errorMessage, {
+        status: 200,
+        headers: { 'Content-Type': 'text/plain' }
+      })
+    }
+  } catch (error: any) {
     console.error("[Claude API] Error generating AI response:", error)
-    return new Response("Failed to generate response", { status: 500 })
+
+    // Return a user-friendly error message as plain text (not streaming)
+    const errorMessage = "I'm currently experiencing technical difficulties. Please try again in a moment."
+    return new Response(errorMessage, {
+      status: 200,
+      headers: { 'Content-Type': 'text/plain' }
+    })
   }
 }
