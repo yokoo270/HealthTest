@@ -113,7 +113,7 @@ export const translations = {
     "nav.settings": "Configuración",
     "nav.login": "Iniciar Sesión",
     "nav.register": "Registrarse",
-    "nav.logout": "Cerrar Sesión",
+    "nav.logout": "Cerrar Sesi��n",
 
     // Landing Page
     "hero.title": "Transforma Tu Salud con Fitness Potenciado por IA",
@@ -170,6 +170,22 @@ export const translations = {
     "auth.name": "Nombre Completo",
     "auth.login.button": "Iniciar Sesión",
     "auth.register.button": "Crear Cuenta",
+
+    // Profile Setup
+    "profile.setup.title": "Completa Tu Perfil",
+    "profile.setup.subtitle": "Ayúdanos a personalizar tu viaje fitness con información básica.",
+    "profile.setup.complete": "Completar Configuración",
+    "profile.age": "Edad",
+    "profile.age.placeholder": "Ingresa tu edad",
+    "profile.weight": "Peso (kg)",
+    "profile.weight.placeholder": "Ingresa tu peso",
+    "profile.height": "Altura (cm)",
+    "profile.height.placeholder": "Ingresa tu altura",
+    "profile.sex": "Sexo",
+    "profile.sex.placeholder": "Selecciona tu sexo",
+    "profile.sex.male": "Masculino",
+    "profile.sex.female": "Femenino",
+    "profile.sex.other": "Otro",
 
     // Common
     "common.loading": "Cargando...",
