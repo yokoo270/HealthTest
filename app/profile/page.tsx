@@ -8,7 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { User, Target, Activity, Calendar } from "lucide-react"
+import { User, Target, Activity, Calendar, ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
 export default function ProfilePage() {
   const { user, updateUser } = useAuth()
