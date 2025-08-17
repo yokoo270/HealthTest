@@ -141,8 +141,27 @@ RESPONSE GUIDELINES:
 
       // Handle specific API errors
       if (apiError.message?.includes('credit balance')) {
-        const errorMessage = "I'm currently unavailable due to API credit limitations. Please try again later or contact support."
-        return new Response(errorMessage, {
+        // Provide a helpful fallback response instead of just an error
+        const fallbackMessage = `I'm currently experiencing technical difficulties with my AI service. However, I can still help you with some basic guidance:
+
+**For Workouts:**
+- Try a basic full-body routine: 3 sets of push-ups, squats, lunges, and planks
+- Aim for 30-45 minutes of exercise 3-4 times per week
+- Start with bodyweight exercises and gradually increase intensity
+
+**For Nutrition:**
+- Focus on whole foods: lean proteins, vegetables, fruits, and whole grains
+- Stay hydrated with 8+ glasses of water daily
+- Eat balanced meals with protein, carbs, and healthy fats
+
+**General Tips:**
+- Get 7-9 hours of sleep per night
+- Track your progress with photos and measurements
+- Stay consistent with your routine
+
+For personalized advice, please try again later when my AI service is restored.`
+
+        return new Response(fallbackMessage, {
           status: 200,
           headers: { 'Content-Type': 'text/plain' }
         })
