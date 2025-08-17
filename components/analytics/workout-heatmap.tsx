@@ -54,7 +54,7 @@ export function WorkoutHeatmap() {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center space-x-2">
-          <Calendar className="w-5 h-5 text-secondary" />
+          <Calendar className="w-5 h-5 text-blue-500" />
           <span>Workout Activity</span>
         </CardTitle>
         <CardDescription>Your workout consistency over the last 12 weeks</CardDescription>
