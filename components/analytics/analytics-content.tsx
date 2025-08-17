@@ -175,21 +175,24 @@ export function AnalyticsContent() {
                   <CardTitle>Recent Workouts</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {[
-                    { name: "Upper Body Strength", date: "Today", duration: "45 min", calories: 320 },
-                    { name: "HIIT Cardio", date: "Yesterday", duration: "30 min", calories: 280 },
-                    { name: "Full Body", date: "2 days ago", duration: "60 min", calories: 450 },
-                    { name: "Yoga Flow", date: "3 days ago", duration: "40 min", calories: 180 },
-                  ].map((workout, index) => (
-                    <div key={index} className="p-3 bg-card border border-border rounded-lg">
-                      <div className="font-medium text-sm">{workout.name}</div>
-                      <div className="text-xs text-muted-foreground">{workout.date}</div>
-                      <div className="flex justify-between text-xs mt-1">
-                        <span>{workout.duration}</span>
-                        <span>{workout.calories} cal</span>
+                  {user?.workoutHistory && user.workoutHistory.length > 0 ? (
+                    user.workoutHistory.slice(-4).reverse().map((workout, index) => (
+                      <div key={workout.id} className="p-3 bg-card border border-border rounded-lg">
+                        <div className="font-medium text-sm">{workout.type}</div>
+                        <div className="text-xs text-muted-foreground">{new Date(workout.date).toLocaleDateString()}</div>
+                        <div className="flex justify-between text-xs mt-1">
+                          <span>{workout.duration} min</span>
+                          <span>{workout.caloriesBurned} cal</span>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div className="p-6 text-center text-muted-foreground">
+                      <Activity className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                      <p className="text-sm">No workouts logged yet</p>
+                      <p className="text-xs">Start your fitness journey!</p>
                     </div>
-                  ))}
+                  )}
                 </CardContent>
               </Card>
             </div>
