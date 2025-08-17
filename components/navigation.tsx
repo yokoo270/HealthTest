@@ -168,21 +168,21 @@ export function Navigation() {
                   className="block text-foreground hover:text-primary transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  {t("features.title")}
+                  {t("nav.features")}
                 </a>
                 <a
                   href="#pricing"
                   className="block text-foreground hover:text-primary transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  Pricing
+                  {t("nav.pricing")}
                 </a>
                 <a
                   href="#testimonials"
                   className="block text-foreground hover:text-primary transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
-                  Reviews
+                  {t("nav.reviews")}
                 </a>
                 <div className="py-2">
                   <LanguageSelector />
