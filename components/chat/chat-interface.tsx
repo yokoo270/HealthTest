@@ -200,6 +200,31 @@ export function ChatInterface() {
         throw new Error(`API request failed: ${response.status}`)
       }
 
+      // Check if response is streaming or plain text
+      const contentType = response.headers.get('content-type')
+      const isStreaming = contentType?.includes('text/plain') === false
+
+      const aiMessageId = Date.now().toString()
+
+      if (!isStreaming) {
+        // Handle non-streaming response (e.g., error messages)
+        const textResponse = await response.text()
+        console.log("[v0] Received plain text response:", textResponse)
+
+        const aiMessage: Message = {
+          id: aiMessageId,
+          content: textResponse,
+          role: "assistant",
+          timestamp: new Date(),
+          type: "text",
+        }
+
+        const updatedMessages = [...(currentSession?.messages || []), aiMessage]
+        updateCurrentSession(updatedMessages)
+        return
+      }
+
+      // Handle streaming response
       const reader = response.body?.getReader()
       if (!reader) {
         throw new Error("No response body reader available")
@@ -209,7 +234,6 @@ export function ChatInterface() {
       let fullResponse = ""
 
       // Create initial message for streaming
-      const aiMessageId = Date.now().toString()
       const initialMessage: Message = {
         id: aiMessageId,
         content: "",
