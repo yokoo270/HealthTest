@@ -8,10 +8,20 @@ import { WorkoutHeatmap } from "./workout-heatmap"
 import { NutritionChart } from "./nutrition-chart"
 import { PerformanceMetrics } from "./performance-metrics"
 import { AnalyticsHeader } from "./analytics-header"
+import { useAuth } from "@/components/auth/auth-provider"
 import { Activity, Target, Flame, Heart, Dumbbell, Clock, Award } from "lucide-react"
 
 export function AnalyticsContent() {
   const [selectedPeriod, setSelectedPeriod] = useState("7d")
+  const { user, getWeekStats } = useAuth()
+
+  const weekStats = getWeekStats()
+  const currentStreak = user?.currentStreak || 0
+  const totalWorkouts = user?.workoutHistory?.length || 0
+  const totalCaloriesBurned = user?.workoutHistory?.reduce((sum, workout) => sum + workout.caloriesBurned, 0) || 0
+  const totalDuration = user?.workoutHistory?.reduce((sum, workout) => sum + workout.duration, 0) || 0
+  const avgHeartRate = 0 // This would need heart rate tracking implementation
+  const goalsCompletion = user?.userGoals?.length ? Math.round((user.userGoals.filter(g => g.completed).length / user.userGoals.length) * 100) : 0
 
   return (
     <div className="min-h-screen bg-background">
