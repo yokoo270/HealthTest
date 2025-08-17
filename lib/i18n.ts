@@ -3,7 +3,7 @@ export type Language = "en" | "es" | "fr" | "de"
 export const languages = {
   en: "English",
   es: "Español",
-  fr: "Français",
+  fr: "Fran��ais",
   de: "Deutsch",
 }
 
@@ -75,6 +75,49 @@ export const translations = {
     "auth.name": "Full Name",
     "auth.login.button": "Sign In",
     "auth.register.button": "Create Account",
+
+    // Landing Page Additional
+    "landing.badge": "AI-Powered Fitness Revolution",
+    "landing.title.main": "HealthMaxxing",
+    "landing.title.sub": "Redefined",
+    "landing.description": "Transform your fitness journey with AI-powered routines, real-time analytics, and personalized coaching that evolves with your goals. The future of fitness is here.",
+    "landing.cta.primary": "Start Your Journey",
+    "landing.cta.secondary": "Watch Demo",
+    "landing.stats.users": "Active Users",
+    "landing.stats.workouts": "Workouts Generated",
+    "landing.stats.success": "Success Rate",
+    "landing.stats.trusted": "Trusted Worldwide",
+    "landing.stats.support": "AI Support",
+
+    // Pricing
+    "pricing.title": "Choose Your Plan",
+    "pricing.subtitle": "Start your fitness journey with our flexible pricing options",
+    "pricing.free.title": "Free",
+    "pricing.free.price": "$0",
+    "pricing.free.period": "/month",
+    "pricing.pro.title": "Pro",
+    "pricing.pro.price": "$19",
+    "pricing.pro.period": "/month",
+    "pricing.enterprise.title": "Enterprise",
+    "pricing.enterprise.price": "Custom",
+    "pricing.enterprise.period": "",
+    "pricing.cta": "Get Started",
+
+    // Profile Form
+    "profile.title": "Complete Your Profile",
+    "profile.subtitle": "Tell us about yourself to get personalized recommendations",
+    "profile.age": "Age",
+    "profile.weight": "Weight (kg)",
+    "profile.height": "Height (cm)",
+    "profile.gender": "Gender",
+    "profile.gender.male": "Male",
+    "profile.gender.female": "Female",
+    "profile.gender.other": "Other",
+    "profile.submit": "Complete Profile",
+
+    // Analytics
+    "analytics.title": "📊 Health Analytics",
+    "analytics.subtitle": "Track your progress with detailed insights",
 
     // Common
     "common.loading": "Loading...",
@@ -154,6 +197,49 @@ export const translations = {
     "auth.name": "Nombre Completo",
     "auth.login.button": "Iniciar Sesión",
     "auth.register.button": "Crear Cuenta",
+
+    // Landing Page Additional
+    "landing.badge": "Revolución Fitness Potenciada por IA",
+    "landing.title.main": "HealthMaxxing",
+    "landing.title.sub": "Redefinido",
+    "landing.description": "Transforma tu viaje fitness con rutinas potenciadas por IA, análisis en tiempo real y entrenamiento personalizado que evoluciona con tus objetivos. El futuro del fitness está aquí.",
+    "landing.cta.primary": "Comienza Tu Viaje",
+    "landing.cta.secondary": "Ver Demo",
+    "landing.stats.users": "Usuarios Activos",
+    "landing.stats.workouts": "Entrenamientos Generados",
+    "landing.stats.success": "Tasa de Éxito",
+    "landing.stats.trusted": "Confiado Mundialmente",
+    "landing.stats.support": "Soporte IA",
+
+    // Pricing
+    "pricing.title": "Elige Tu Plan",
+    "pricing.subtitle": "Comienza tu viaje fitness con nuestras opciones de precios flexibles",
+    "pricing.free.title": "Gratis",
+    "pricing.free.price": "$0",
+    "pricing.free.period": "/mes",
+    "pricing.pro.title": "Pro",
+    "pricing.pro.price": "$19",
+    "pricing.pro.period": "/mes",
+    "pricing.enterprise.title": "Empresarial",
+    "pricing.enterprise.price": "Personalizado",
+    "pricing.enterprise.period": "",
+    "pricing.cta": "Comenzar",
+
+    // Profile Form
+    "profile.title": "Completa Tu Perfil",
+    "profile.subtitle": "Cuéntanos sobre ti para obtener recomendaciones personalizadas",
+    "profile.age": "Edad",
+    "profile.weight": "Peso (kg)",
+    "profile.height": "Altura (cm)",
+    "profile.gender": "Género",
+    "profile.gender.male": "Masculino",
+    "profile.gender.female": "Femenino",
+    "profile.gender.other": "Otro",
+    "profile.submit": "Completar Perfil",
+
+    // Analytics
+    "analytics.title": "📊 Análisis de Salud",
+    "analytics.subtitle": "Rastrea tu progreso con insights detallados",
 
     // Common
     "common.loading": "Cargando...",
@@ -236,6 +322,49 @@ export const translations = {
     "auth.login.button": "Se Connecter",
     "auth.register.button": "Créer un Compte",
 
+    // Landing Page Additional
+    "landing.badge": "Révolution Fitness Alimentée par l'IA",
+    "landing.title.main": "HealthMaxxing",
+    "landing.title.sub": "Redéfini",
+    "landing.description": "Transformez votre parcours fitness avec des routines alimentées par l'IA, des analyses en temps réel et un coaching personnalisé qui évolue avec vos objectifs. L'avenir du fitness est ici.",
+    "landing.cta.primary": "Commencez Votre Voyage",
+    "landing.cta.secondary": "Voir la Démo",
+    "landing.stats.users": "Utilisateurs Actifs",
+    "landing.stats.workouts": "Entraînements Générés",
+    "landing.stats.success": "Taux de Réussite",
+    "landing.stats.trusted": "Reconnu Mondialement",
+    "landing.stats.support": "Support IA",
+
+    // Pricing
+    "pricing.title": "Choisissez Votre Plan",
+    "pricing.subtitle": "Commencez votre parcours fitness avec nos options de tarification flexibles",
+    "pricing.free.title": "Gratuit",
+    "pricing.free.price": "0€",
+    "pricing.free.period": "/mois",
+    "pricing.pro.title": "Pro",
+    "pricing.pro.price": "19€",
+    "pricing.pro.period": "/mois",
+    "pricing.enterprise.title": "Entreprise",
+    "pricing.enterprise.price": "Personnalisé",
+    "pricing.enterprise.period": "",
+    "pricing.cta": "Commencer",
+
+    // Profile Form
+    "profile.title": "Complétez Votre Profil",
+    "profile.subtitle": "Parlez-nous de vous pour obtenir des recommandations personnalisées",
+    "profile.age": "Âge",
+    "profile.weight": "Poids (kg)",
+    "profile.height": "Taille (cm)",
+    "profile.gender": "Genre",
+    "profile.gender.male": "Masculin",
+    "profile.gender.female": "Féminin",
+    "profile.gender.other": "Autre",
+    "profile.submit": "Compléter le Profil",
+
+    // Analytics
+    "analytics.title": "📊 Analyses de Santé",
+    "analytics.subtitle": "Suivez vos progrès avec des insights détaillés",
+
     // Common
     "common.loading": "Chargement...",
     "common.save": "Sauvegarder",
@@ -315,6 +444,49 @@ export const translations = {
     "auth.name": "Vollständiger Name",
     "auth.login.button": "Anmelden",
     "auth.register.button": "Konto Erstellen",
+
+    // Landing Page Additional
+    "landing.badge": "KI-gesteuerte Fitness Revolution",
+    "landing.title.main": "HealthMaxxing",
+    "landing.title.sub": "Neu Definiert",
+    "landing.description": "Transformieren Sie Ihre Fitness-Reise mit KI-gesteuerten Routinen, Echtzeit-Analysen und personalisiertem Coaching, das sich mit Ihren Zielen entwickelt. Die Zukunft des Fitness ist hier.",
+    "landing.cta.primary": "Starten Sie Ihre Reise",
+    "landing.cta.secondary": "Demo Ansehen",
+    "landing.stats.users": "Aktive Benutzer",
+    "landing.stats.workouts": "Generierte Workouts",
+    "landing.stats.success": "Erfolgsrate",
+    "landing.stats.trusted": "Weltweit Vertraut",
+    "landing.stats.support": "KI-Support",
+
+    // Pricing
+    "pricing.title": "Wählen Sie Ihren Plan",
+    "pricing.subtitle": "Beginnen Sie Ihre Fitness-Reise mit unseren flexiblen Preisoptionen",
+    "pricing.free.title": "Kostenlos",
+    "pricing.free.price": "0€",
+    "pricing.free.period": "/Monat",
+    "pricing.pro.title": "Pro",
+    "pricing.pro.price": "19€",
+    "pricing.pro.period": "/Monat",
+    "pricing.enterprise.title": "Unternehmen",
+    "pricing.enterprise.price": "Individuell",
+    "pricing.enterprise.period": "",
+    "pricing.cta": "Loslegen",
+
+    // Profile Form
+    "profile.title": "Vervollständigen Sie Ihr Profil",
+    "profile.subtitle": "Erzählen Sie uns von sich, um personalisierte Empfehlungen zu erhalten",
+    "profile.age": "Alter",
+    "profile.weight": "Gewicht (kg)",
+    "profile.height": "Größe (cm)",
+    "profile.gender": "Geschlecht",
+    "profile.gender.male": "Männlich",
+    "profile.gender.female": "Weiblich",
+    "profile.gender.other": "Andere",
+    "profile.submit": "Profil Vervollständigen",
+
+    // Analytics
+    "analytics.title": "📊 Gesundheits-Analysen",
+    "analytics.subtitle": "Verfolgen Sie Ihren Fortschritt mit detaillierten Insights",
 
     // Common
     "common.loading": "Laden...",
