@@ -3,22 +3,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer } from "recharts"
 import { TrendingUp } from "lucide-react"
+import { useAuth } from "@/components/auth/auth-provider"
 
 interface ProgressChartProps {
   period: string
 }
 
-const data = [
-  { date: "Jan 1", weight: 75, bodyFat: 18, muscle: 42 },
-  { date: "Jan 8", weight: 74.5, bodyFat: 17.8, muscle: 42.2 },
-  { date: "Jan 15", weight: 74.2, bodyFat: 17.5, muscle: 42.5 },
-  { date: "Jan 22", weight: 73.8, bodyFat: 17.2, muscle: 42.8 },
-  { date: "Jan 29", weight: 73.5, bodyFat: 17, muscle: 43 },
-  { date: "Feb 5", weight: 73.2, bodyFat: 16.8, muscle: 43.2 },
-  { date: "Feb 12", weight: 72.8, bodyFat: 16.5, muscle: 43.5 },
-]
-
 export function ProgressChart({ period }: ProgressChartProps) {
+  const { user } = useAuth()
+
+  // Generate progress data from user's daily stats or show empty state
+  const generateProgressData = () => {
+    if (!user?.dailyStats || user.dailyStats.length === 0) {
+      return []
+    }
+
+    return user.dailyStats
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+      .slice(-30) // Last 30 days
+      .map(stat => ({
+        date: new Date(stat.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        weight: stat.weight || 0,
+        bodyFat: 0, // This would need to be tracked separately
+        muscle: 0, // This would need to be tracked separately
+      }))
+  }
+
+  const data = generateProgressData()
   return (
     <Card>
       <CardHeader>
