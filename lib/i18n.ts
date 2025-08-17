@@ -30,12 +30,35 @@ export const translations = {
 
     // Features
     "features.title": "Powerful Features for Your Fitness Journey",
-    "features.ai.title": "AI-Powered Coaching",
-    "features.ai.description": "Get personalized workout routines and nutrition advice from our advanced AI coach.",
-    "features.analytics.title": "Advanced Analytics",
-    "features.analytics.description": "Track your progress with detailed analytics and insights.",
-    "features.community.title": "Community Support",
-    "features.community.description": "Connect with like-minded individuals on their fitness journey.",
+    "features.section.title": "Powered by Intelligence",
+    "features.section.subtitle": "Experience the next generation of fitness technology with features designed to maximize your potential",
+    "features.ai.title": "AI Personal Trainer",
+    "features.ai.description": "Advanced AI creates personalized workout routines that adapt to your progress and preferences",
+    "features.analytics.title": "Real-Time Analytics",
+    "features.analytics.description": "Track your progress with detailed analytics and insights powered by machine learning",
+    "features.community.title": "Community Challenges",
+    "features.community.description": "Join global fitness challenges and compete with users worldwide",
+    "features.feedback.title": "Instant Feedback",
+    "features.feedback.description": "Get real-time form corrections and performance feedback during workouts",
+    "features.goals.title": "Goal Optimization",
+    "features.goals.description": "AI-driven goal setting and achievement tracking for maximum results",
+    "features.safety.title": "Injury Prevention",
+    "features.safety.description": "Smart algorithms detect potential injury risks and adjust workouts accordingly",
+
+    // Hero Section
+    "hero.badge": "🚀 AI-Powered Fitness Revolution",
+    "hero.title.part1": "HealthMaxxing",
+    "hero.title.part2": "Redefined",
+    "hero.description": "Transform your fitness journey with AI-powered routines, real-time analytics, and personalized coaching that evolves with your goals. The future of fitness is here.",
+    "hero.button.demo": "Watch Demo",
+    "hero.stats.users": "Active Users",
+    "hero.stats.workouts": "Workouts Generated",
+    "hero.stats.success": "Success Rate",
+
+    // Navigation
+    "nav.features": "Features",
+    "nav.pricing": "Pricing",
+    "nav.reviews": "Reviews",
 
     // Chat
     "chat.placeholder": "Ask me anything about fitness, nutrition, or workouts...",
@@ -113,7 +136,7 @@ export const translations = {
     "nav.settings": "Configuración",
     "nav.login": "Iniciar Sesión",
     "nav.register": "Registrarse",
-    "nav.logout": "Cerrar Sesi��n",
+    "nav.logout": "Cerrar Sesión",
 
     // Landing Page
     "hero.title": "Transforma Tu Salud con Fitness Potenciado por IA",
@@ -124,13 +147,35 @@ export const translations = {
 
     // Features
     "features.title": "Características Poderosas para Tu Viaje Fitness",
-    "features.ai.title": "Entrenamiento con IA",
-    "features.ai.description":
-      "Obtén rutinas de ejercicio personalizadas y consejos nutricionales de nuestro entrenador IA avanzado.",
-    "features.analytics.title": "Análisis Avanzados",
-    "features.analytics.description": "Rastrea tu progreso con análisis detallados e insights.",
-    "features.community.title": "Apoyo Comunitario",
-    "features.community.description": "Conéctate con personas afines en su viaje fitness.",
+    "features.section.title": "Potenciado por Inteligencia",
+    "features.section.subtitle": "Experimenta la próxima generación de tecnología fitness con características diseñadas para maximizar tu potencial",
+    "features.ai.title": "Entrenador Personal IA",
+    "features.ai.description": "IA avanzada crea rutinas de ejercicio personalizadas que se adaptan a tu progreso y preferencias",
+    "features.analytics.title": "Análisis en Tiempo Real",
+    "features.analytics.description": "Rastrea tu progreso con análisis detallados e insights potenciados por aprendizaje automático",
+    "features.community.title": "Desafíos Comunitarios",
+    "features.community.description": "Únete a desafíos fitness globales y compite con usuarios de todo el mundo",
+    "features.feedback.title": "Retroalimentación Instantánea",
+    "features.feedback.description": "Obtén correcciones de forma en tiempo real y retroalimentación de rendimiento durante los entrenamientos",
+    "features.goals.title": "Optimización de Objetivos",
+    "features.goals.description": "Establecimiento de objetivos impulsado por IA y seguimiento de logros para resultados máximos",
+    "features.safety.title": "Prevención de Lesiones",
+    "features.safety.description": "Algoritmos inteligentes detectan riesgos potenciales de lesiones y ajustan entrenamientos en consecuencia",
+
+    // Hero Section
+    "hero.badge": "🚀 Revolución Fitness Potenciada por IA",
+    "hero.title.part1": "HealthMaxxing",
+    "hero.title.part2": "Redefinido",
+    "hero.description": "Transforma tu viaje fitness con rutinas potenciadas por IA, análisis en tiempo real y entrenamiento personalizado que evoluciona con tus objetivos. El futuro del fitness está aquí.",
+    "hero.button.demo": "Ver Demo",
+    "hero.stats.users": "Usuarios Activos",
+    "hero.stats.workouts": "Entrenamientos Generados",
+    "hero.stats.success": "Tasa de Éxito",
+
+    // Navigation
+    "nav.features": "Características",
+    "nav.pricing": "Precios",
+    "nav.reviews": "Reseñas",
 
     // Chat
     "chat.placeholder": "Pregúntame cualquier cosa sobre fitness, nutrición o ejercicios...",
