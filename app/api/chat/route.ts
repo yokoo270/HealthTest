@@ -1,20 +1,37 @@
 import { streamText } from "ai"
-import { xai } from "@ai-sdk/xai"
+import { anthropic } from "@ai-sdk/anthropic"
 import type { NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
     const { message, context, history, userProfile } = await request.json()
 
-    console.log("[v0] API received request:", { message: message?.substring(0, 50), hasUserProfile: !!userProfile })
+    console.log("[HealthMaxx] API received request:", { message: message?.substring(0, 50), hasUserProfile: !!userProfile })
 
     if (!message || !message.trim()) {
-      console.error("[v0] Empty message received")
+      console.error("[HealthMaxx] Empty message received")
       return new Response("Message is required", { status: 400 })
     }
 
-    if (!process.env.XAI_API_KEY) {
-      console.error("[v0] XAI_API_KEY not found in environment variables")
+    // Check for medical/health questions - LEGAL RESTRICTION
+    const medicalTerms = [
+      'enfermedad', 'gripe', 'dolor', 'síntoma', 'medicina', 'medicamento', 'pastilla', 'tratamiento', 'diagnóstico', 'infección', 'virus', 'bacteria', 'alergia', 'sangre', 'presión', 'corazón', 'pulmón', 'hígado', 'riñón',
+      'disease', 'flu', 'pain', 'symptom', 'medicine', 'medication', 'pill', 'treatment', 'diagnosis', 'infection', 'virus', 'bacteria', 'allergy', 'blood', 'pressure', 'heart', 'lung', 'liver', 'kidney', 'sick', 'illness',
+      'maladie', 'grippe', 'douleur', 'symptôme', 'médicament', 'pilule', 'traitement', 'diagnostic', 'infection', 'allergie', 'sang', 'tension', 'cœur', 'poumon', 'foie', 'rein',
+      'krankheit', 'grippe', 'schmerz', 'symptom', 'medizin', 'medikament', 'pille', 'behandlung', 'diagnose', 'infektion', 'allergie', 'blut', 'druck', 'herz', 'lunge', 'leber', 'niere'
+    ]
+
+    const lowerMessage = message.toLowerCase()
+    const containsMedicalTerms = medicalTerms.some(term => lowerMessage.includes(term))
+
+    if (containsMedicalTerms) {
+      return new Response(JSON.stringify({
+        content: "Lo siento, pero por razones legales no puedo proporcionar consejos médicos o responder preguntas sobre síntomas, enfermedades o tratamientos médicos. Te recomiendo consultar con un profesional de la salud para cualquier inquietud médica. Estoy aquí para ayudarte con fitness, nutrición y entrenamiento. / I'm sorry, but for legal reasons I cannot provide medical advice or answer questions about symptoms, illnesses, or medical treatments. I recommend consulting with a healthcare professional for any medical concerns. I'm here to help you with fitness, nutrition, and training."
+      }), { status: 200, headers: { 'Content-Type': 'application/json' } })
+    }
+
+    if (!process.env.ANTHROPIC_API_KEY) {
+      console.error("[HealthMaxx] ANTHROPIC_API_KEY not found in environment variables")
       return new Response("AI service not configured", { status: 500 })
     }
 
