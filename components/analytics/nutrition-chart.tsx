@@ -3,24 +3,59 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts"
 import { Apple, Droplets } from "lucide-react"
-
-const macroData = [
-  { name: "Protein", value: 30, color: "hsl(var(--chart-1))" },
-  { name: "Carbs", value: 45, color: "hsl(var(--chart-2))" },
-  { name: "Fats", value: 25, color: "hsl(var(--chart-3))" },
-]
-
-const weeklyNutrition = [
-  { day: "Mon", calories: 2100, protein: 140, carbs: 250, fats: 70 },
-  { day: "Tue", calories: 2200, protein: 150, carbs: 260, fats: 75 },
-  { day: "Wed", calories: 1950, protein: 130, carbs: 220, fats: 65 },
-  { day: "Thu", calories: 2300, protein: 160, carbs: 280, fats: 80 },
-  { day: "Fri", calories: 2150, protein: 145, carbs: 240, fats: 72 },
-  { day: "Sat", calories: 2400, protein: 165, carbs: 300, fats: 85 },
-  { day: "Sun", calories: 2000, protein: 135, carbs: 230, fats: 68 },
-]
+import { useAuth } from "@/components/auth/auth-provider"
 
 export function NutritionChart() {
+  const { user } = useAuth()
+
+  // Generate macro data from user's nutrition history
+  const generateMacroData = () => {
+    if (!user?.nutritionHistory || user.nutritionHistory.length === 0) {
+      return []
+    }
+
+    const totalProtein = user.nutritionHistory.reduce((sum, entry) => sum + entry.protein, 0)
+    const totalCarbs = user.nutritionHistory.reduce((sum, entry) => sum + entry.carbs, 0)
+    const totalFats = user.nutritionHistory.reduce((sum, entry) => sum + entry.fat, 0)
+    const total = totalProtein + totalCarbs + totalFats
+
+    if (total === 0) return []
+
+    return [
+      { name: "Protein", value: Math.round((totalProtein / total) * 100), color: "hsl(var(--chart-1))" },
+      { name: "Carbs", value: Math.round((totalCarbs / total) * 100), color: "hsl(var(--chart-2))" },
+      { name: "Fats", value: Math.round((totalFats / total) * 100), color: "hsl(var(--chart-3))" },
+    ]
+  }
+
+  // Generate weekly nutrition data from user's nutrition history
+  const generateWeeklyData = () => {
+    if (!user?.nutritionHistory || user.nutritionHistory.length === 0) {
+      return []
+    }
+
+    const last7Days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date()
+      date.setDate(date.getDate() - (6 - i))
+      return date.toISOString().split('T')[0]
+    })
+
+    return last7Days.map((date, index) => {
+      const dayEntries = user.nutritionHistory?.filter(entry => entry.date.startsWith(date)) || []
+      const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'short' })
+
+      return {
+        day: dayName,
+        calories: dayEntries.reduce((sum, entry) => sum + entry.calories, 0),
+        protein: dayEntries.reduce((sum, entry) => sum + entry.protein, 0),
+        carbs: dayEntries.reduce((sum, entry) => sum + entry.carbs, 0),
+        fats: dayEntries.reduce((sum, entry) => sum + entry.fat, 0),
+      }
+    })
+  }
+
+  const macroData = generateMacroData()
+  const weeklyNutrition = generateWeeklyData()
   return (
     <div className="grid lg:grid-cols-2 gap-6">
       <Card>
