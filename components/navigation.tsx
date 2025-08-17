@@ -76,13 +76,13 @@ export function Navigation() {
           ) : (
             <div className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-foreground hover:text-primary transition-colors">
-                {t("features.title")}
+                {t("nav.features")}
               </a>
               <a href="#pricing" className="text-foreground hover:text-primary transition-colors">
-                Pricing
+                {t("nav.pricing")}
               </a>
               <a href="#testimonials" className="text-foreground hover:text-primary transition-colors">
-                Reviews
+                {t("nav.reviews")}
               </a>
               <LanguageSelector />
               <Link href="/auth/login">
