@@ -12,7 +12,7 @@ import { User, Target, Activity, Calendar, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 export default function ProfilePage() {
-  const { user, updateUser } = useAuth()
+  const { user, updateUser, getWeekStats } = useAuth()
   const [isEditing, setIsEditing] = useState(false)
   const [formData, setFormData] = useState({
     name: user?.name || "",
@@ -20,10 +20,16 @@ export default function ProfilePage() {
     age: user?.age || "",
     height: user?.height || "",
     weight: user?.weight || "",
+    sex: user?.sex || "",
     fitnessLevel: user?.fitnessLevel || "",
     goals: user?.goals || "",
     bio: user?.bio || "",
   })
+
+  const weekStats = getWeekStats()
+  const totalWorkouts = user?.workoutHistory?.length || 0
+  const totalHours = user?.workoutHistory?.reduce((sum, workout) => sum + workout.duration, 0) / 60 || 0
+  const goalsProgress = user?.userGoals?.length ? Math.round((user.userGoals.filter(g => g.completed).length / user.userGoals.length) * 100) : 0
 
   const handleSave = () => {
     updateUser(formData)
