@@ -67,43 +67,55 @@ export function NutritionChart() {
           <CardDescription>Your average macronutrient breakdown</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer
-            config={{
-              protein: { label: "Protein", color: "hsl(var(--chart-1))" },
-              carbs: { label: "Carbs", color: "hsl(var(--chart-2))" },
-              fats: { label: "Fats", color: "hsl(var(--chart-3))" },
-            }}
-            className="h-[300px]"
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={macroData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={100}
-                  paddingAngle={5}
-                  dataKey="value"
-                >
-                  {macroData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <ChartTooltip content={<ChartTooltipContent />} />
-              </PieChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          {macroData.length > 0 ? (
+            <>
+              <ChartContainer
+                config={{
+                  protein: { label: "Protein", color: "hsl(var(--chart-1))" },
+                  carbs: { label: "Carbs", color: "hsl(var(--chart-2))" },
+                  fats: { label: "Fats", color: "hsl(var(--chart-3))" },
+                }}
+                className="h-[300px]"
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={macroData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={100}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {macroData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartContainer>
 
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            {macroData.map((macro) => (
-              <div key={macro.name} className="text-center">
-                <div className="w-4 h-4 rounded-full mx-auto mb-1" style={{ backgroundColor: macro.color }} />
-                <div className="text-sm font-medium">{macro.name}</div>
-                <div className="text-xs text-muted-foreground">{macro.value}%</div>
+              <div className="grid grid-cols-3 gap-4 mt-4">
+                {macroData.map((macro) => (
+                  <div key={macro.name} className="text-center">
+                    <div className="w-4 h-4 rounded-full mx-auto mb-1" style={{ backgroundColor: macro.color }} />
+                    <div className="text-sm font-medium">{macro.name}</div>
+                    <div className="text-xs text-muted-foreground">{macro.value}%</div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </>
+          ) : (
+            <div className="h-[300px] flex items-center justify-center text-center">
+              <div>
+                <Apple className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p className="text-muted-foreground">No nutrition data yet</p>
+                <p className="text-sm text-muted-foreground">Start logging your meals to see macro breakdown</p>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 
