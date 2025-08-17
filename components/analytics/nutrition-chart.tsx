@@ -128,22 +128,32 @@ export function NutritionChart() {
           <CardDescription>Daily calorie and macro intake this week</CardDescription>
         </CardHeader>
         <CardContent>
-          <ChartContainer
-            config={{
-              calories: { label: "Calories", color: "hsl(var(--chart-1))" },
-              protein: { label: "Protein (g)", color: "hsl(var(--chart-2))" },
-            }}
-            className="h-[300px]"
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={weeklyNutrition}>
-                <XAxis dataKey="day" />
-                <YAxis />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="calories" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          {weeklyNutrition.some(day => day.calories > 0) ? (
+            <ChartContainer
+              config={{
+                calories: { label: "Calories", color: "hsl(var(--chart-1))" },
+                protein: { label: "Protein (g)", color: "hsl(var(--chart-2))" },
+              }}
+              className="h-[300px]"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={weeklyNutrition}>
+                  <XAxis dataKey="day" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="calories" fill="var(--color-chart-1)" radius={[4, 4, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          ) : (
+            <div className="h-[300px] flex items-center justify-center text-center">
+              <div>
+                <Droplets className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p className="text-muted-foreground">No weekly data yet</p>
+                <p className="text-sm text-muted-foreground">Log your daily nutrition to see weekly trends</p>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
