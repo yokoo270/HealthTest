@@ -246,19 +246,19 @@ export default function ProfilePage() {
               <CardContent>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-primary">12</div>
-                    <div className="text-sm text-muted-foreground">Workouts This Month</div>
+                    <div className="text-2xl font-bold text-primary">{totalWorkouts}</div>
+                    <div className="text-sm text-muted-foreground">Total Workouts</div>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-secondary">8.5</div>
+                    <div className="text-2xl font-bold text-secondary">{totalHours.toFixed(1)}</div>
                     <div className="text-sm text-muted-foreground">Hours Trained</div>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-accent">2.1</div>
-                    <div className="text-sm text-muted-foreground">kg Lost</div>
+                    <div className="text-2xl font-bold text-accent">0</div>
+                    <div className="text-sm text-muted-foreground">Weight Change (kg)</div>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <div className="text-2xl font-bold text-primary">95%</div>
+                    <div className="text-2xl font-bold text-primary">{goalsProgress}%</div>
                     <div className="text-sm text-muted-foreground">Goal Progress</div>
                   </div>
                 </div>
