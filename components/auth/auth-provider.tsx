@@ -78,6 +78,7 @@ interface User {
   age?: string
   height?: string
   weight?: string
+  sex?: string
   fitnessLevel?: string
   goals?: string
   bio?: string
