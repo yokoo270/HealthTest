@@ -1,11 +1,13 @@
 "use client"
 import { useAuth } from "@/components/auth/auth-provider"
+import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Download, Share } from "lucide-react"
 import Link from "next/link"
 
 export function AnalyticsHeader() {
   const { user } = useAuth()
+  const { t } = useLanguage()
 
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-lg">
@@ -15,7 +17,7 @@ export function AnalyticsHeader() {
             <Link href="/dashboard">
               <Button variant="ghost" size="sm" className="gap-2">
                 <ArrowLeft className="w-4 h-4" />
-                Dashboard
+                {t("common.back")}
               </Button>
             </Link>
           </div>
