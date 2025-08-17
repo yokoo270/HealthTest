@@ -76,6 +76,22 @@ export const translations = {
     "auth.login.button": "Sign In",
     "auth.register.button": "Create Account",
 
+    // Profile Setup
+    "profile.setup.title": "Complete Your Profile",
+    "profile.setup.subtitle": "Help us personalize your fitness journey with some basic information.",
+    "profile.setup.complete": "Complete Setup",
+    "profile.age": "Age",
+    "profile.age.placeholder": "Enter your age",
+    "profile.weight": "Weight (kg)",
+    "profile.weight.placeholder": "Enter your weight",
+    "profile.height": "Height (cm)",
+    "profile.height.placeholder": "Enter your height",
+    "profile.sex": "Sex",
+    "profile.sex.placeholder": "Select your sex",
+    "profile.sex.male": "Male",
+    "profile.sex.female": "Female",
+    "profile.sex.other": "Other",
+
     // Common
     "common.loading": "Loading...",
     "common.save": "Save",
