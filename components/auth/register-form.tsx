@@ -39,7 +39,7 @@ export function RegisterForm() {
     if (formData.name && formData.email && formData.password) {
       localStorage.setItem("isAuthenticated", "true")
       localStorage.setItem("user", JSON.stringify({ email: formData.email, name: formData.name }))
-      router.push("/dashboard")
+      router.push("/profile-setup")
     }
 
     setIsLoading(false)
