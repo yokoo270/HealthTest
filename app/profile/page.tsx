@@ -52,8 +52,16 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <div className="mb-8">
+            <div className="flex items-center space-x-4 mb-4">
+              <Link href="/dashboard">
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <ArrowLeft className="w-4 h-4" />
+                  Dashboard
+                </Button>
+              </Link>
+            </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Your Profile
+              👤 Your Profile
             </h1>
             <p className="text-muted-foreground mt-2">Manage your personal information and fitness preferences</p>
           </div>
