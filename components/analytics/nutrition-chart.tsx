@@ -3,24 +3,66 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis } from "recharts"
 import { Apple, Droplets } from "lucide-react"
+import { useAuth } from "@/components/auth/auth-provider"
 
-const macroData = [
-  { name: "Protein", value: 30, color: "hsl(var(--chart-1))" },
-  { name: "Carbs", value: 45, color: "hsl(var(--chart-2))" },
-  { name: "Fats", value: 25, color: "hsl(var(--chart-3))" },
-]
-
-const weeklyNutrition = [
-  { day: "Mon", calories: 2100, protein: 140, carbs: 250, fats: 70 },
-  { day: "Tue", calories: 2200, protein: 150, carbs: 260, fats: 75 },
-  { day: "Wed", calories: 1950, protein: 130, carbs: 220, fats: 65 },
-  { day: "Thu", calories: 2300, protein: 160, carbs: 280, fats: 80 },
-  { day: "Fri", calories: 2150, protein: 145, carbs: 240, fats: 72 },
-  { day: "Sat", calories: 2400, protein: 165, carbs: 300, fats: 85 },
-  { day: "Sun", calories: 2000, protein: 135, carbs: 230, fats: 68 },
-]
 
 export function NutritionChart() {
+  const { user } = useAuth()
+
+  // Calculate macro data from user's nutrition history
+  const nutritionHistory = user?.nutritionHistory || []
+
+  const macroData = nutritionHistory.length > 0 ? [
+    { name: "Protein", value: 30, color: "hsl(var(--chart-1))" },
+    { name: "Carbs", value: 45, color: "hsl(var(--chart-2))" },
+    { name: "Fats", value: 25, color: "hsl(var(--chart-3))" },
+  ] : []
+
+  // Get last 7 days of nutrition data
+  const weeklyNutrition = user?.dailyStats?.slice(-7).map((stat, index) => ({
+    day: new Date(stat.date).toLocaleDateString('en-US', { weekday: 'short' }),
+    calories: stat.caloriesConsumed || 0,
+    protein: 0, // Would need to be calculated from nutrition entries
+    carbs: 0,
+    fats: 0,
+  })) || []
+
+  if (nutritionHistory.length === 0) {
+    return (
+      <div className="grid lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Apple className="w-5 h-5 text-primary" />
+              <span>Macro Distribution</span>
+            </CardTitle>
+            <CardDescription>Your average macronutrient breakdown</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+              No nutrition data available. Start logging your meals to see macro distribution.
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2">
+              <Droplets className="w-5 h-5 text-secondary" />
+              <span>Weekly Intake</span>
+            </CardTitle>
+            <CardDescription>Daily calorie and macro intake this week</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+              No nutrition data available. Start logging your daily intake.
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <div className="grid lg:grid-cols-2 gap-6">
       <Card>
