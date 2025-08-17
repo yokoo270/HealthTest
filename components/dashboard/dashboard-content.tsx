@@ -152,13 +152,13 @@ export function DashboardContent() {
             </CardContent>
           </Card>
 
-          <Card className="border-primary/20">
+          <Card className="border-red-500/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-              <User className="h-4 w-4 text-primary" />
+              <Flame className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{currentStreak} days</div>
+              <div className="text-2xl font-bold text-red-500">{currentStreak} days</div>
               <p className="text-xs text-muted-foreground">
                 {currentStreak > 0 ? "Keep it up!" : "Start your streak today"}
               </p>
