@@ -57,8 +57,8 @@ export function AnalyticsContent() {
                 <Activity className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium">Workouts</span>
               </div>
-              <div className="text-2xl font-bold">24</div>
-              <div className="text-xs text-green-500">+12% vs last period</div>
+              <div className="text-2xl font-bold">{totalWorkouts}</div>
+              <div className="text-xs text-muted-foreground">{totalWorkouts === 0 ? "Start logging workouts" : "Total workouts"}</div>
             </CardContent>
           </Card>
 
@@ -68,8 +68,8 @@ export function AnalyticsContent() {
                 <Flame className="w-4 h-4 text-secondary" />
                 <span className="text-sm font-medium">Calories</span>
               </div>
-              <div className="text-2xl font-bold">8.2k</div>
-              <div className="text-xs text-green-500">+8% vs last period</div>
+              <div className="text-2xl font-bold">{totalCaloriesBurned > 1000 ? `${(totalCaloriesBurned/1000).toFixed(1)}k` : totalCaloriesBurned}</div>
+              <div className="text-xs text-muted-foreground">{totalCaloriesBurned === 0 ? "No calories burned yet" : "Total calories burned"}</div>
             </CardContent>
           </Card>
 
@@ -79,8 +79,8 @@ export function AnalyticsContent() {
                 <Clock className="w-4 h-4 text-accent" />
                 <span className="text-sm font-medium">Duration</span>
               </div>
-              <div className="text-2xl font-bold">18h</div>
-              <div className="text-xs text-green-500">+15% vs last period</div>
+              <div className="text-2xl font-bold">{totalDuration > 60 ? `${Math.round(totalDuration/60)}h` : `${totalDuration}m`}</div>
+              <div className="text-xs text-muted-foreground">{totalDuration === 0 ? "No workout time yet" : "Total workout time"}</div>
             </CardContent>
           </Card>
 
@@ -90,8 +90,8 @@ export function AnalyticsContent() {
                 <Heart className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium">Avg HR</span>
               </div>
-              <div className="text-2xl font-bold">142</div>
-              <div className="text-xs text-muted-foreground">bpm</div>
+              <div className="text-2xl font-bold">{avgHeartRate}</div>
+              <div className="text-xs text-muted-foreground">{avgHeartRate === 0 ? "No HR data" : "bpm"}</div>
             </CardContent>
           </Card>
 
@@ -101,19 +101,19 @@ export function AnalyticsContent() {
                 <Target className="w-4 h-4 text-secondary" />
                 <span className="text-sm font-medium">Goals</span>
               </div>
-              <div className="text-2xl font-bold">85%</div>
-              <div className="text-xs text-green-500">+5% vs last period</div>
+              <div className="text-2xl font-bold">{goalsCompletion}%</div>
+              <div className="text-xs text-muted-foreground">{goalsCompletion === 0 ? "Set your first goal" : "Goals completed"}</div>
             </CardContent>
           </Card>
 
-          <Card className="border-accent/20">
+          <Card className="border-red-500/20">
             <CardContent className="p-4">
               <div className="flex items-center space-x-2 mb-2">
-                <Award className="w-4 h-4 text-accent" />
+                <Flame className="w-4 h-4 text-red-500" />
                 <span className="text-sm font-medium">Streak</span>
               </div>
-              <div className="text-2xl font-bold">12</div>
-              <div className="text-xs text-muted-foreground">days</div>
+              <div className="text-2xl font-bold text-red-500">{currentStreak}</div>
+              <div className="text-xs text-muted-foreground">{currentStreak === 0 ? "Start your streak" : "days"}</div>
             </CardContent>
           </Card>
         </div>
