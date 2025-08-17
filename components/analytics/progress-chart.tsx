@@ -40,52 +40,48 @@ export function ProgressChart({ period }: ProgressChartProps) {
         <CardDescription>Track your weight, body fat, and muscle mass over time</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer
-          config={{
-            weight: {
-              label: "Weight (kg)",
-              color: "hsl(var(--chart-1))",
-            },
-            bodyFat: {
-              label: "Body Fat (%)",
-              color: "hsl(var(--chart-2))",
-            },
-            muscle: {
-              label: "Muscle Mass (kg)",
-              color: "hsl(var(--chart-3))",
-            },
-          }}
-          className="h-[300px]"
-        >
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data}>
-              <XAxis dataKey="date" />
-              <YAxis />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line
-                type="monotone"
-                dataKey="weight"
-                stroke="var(--color-chart-1)"
-                strokeWidth={2}
-                dot={{ fill: "var(--color-chart-1)" }}
-              />
-              <Line
-                type="monotone"
-                dataKey="bodyFat"
-                stroke="var(--color-chart-2)"
-                strokeWidth={2}
-                dot={{ fill: "var(--color-chart-2)" }}
-              />
-              <Line
-                type="monotone"
-                dataKey="muscle"
-                stroke="var(--color-chart-3)"
-                strokeWidth={2}
-                dot={{ fill: "var(--color-chart-3)" }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+        {data.length > 0 ? (
+          <ChartContainer
+            config={{
+              weight: {
+                label: "Weight (kg)",
+                color: "hsl(var(--chart-1))",
+              },
+              bodyFat: {
+                label: "Body Fat (%)",
+                color: "hsl(var(--chart-2))",
+              },
+              muscle: {
+                label: "Muscle Mass (kg)",
+                color: "hsl(var(--chart-3))",
+              },
+            }}
+            className="h-[300px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={data}>
+                <XAxis dataKey="date" />
+                <YAxis />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line
+                  type="monotone"
+                  dataKey="weight"
+                  stroke="var(--color-chart-1)"
+                  strokeWidth={2}
+                  dot={{ fill: "var(--color-chart-1)" }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        ) : (
+          <div className="h-[300px] flex items-center justify-center text-center">
+            <div>
+              <TrendingUp className="w-12 h-12 mx-auto mb-4 opacity-50" />
+              <p className="text-muted-foreground">No progress data yet</p>
+              <p className="text-sm text-muted-foreground">Start logging your daily stats to see your progress</p>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   )
