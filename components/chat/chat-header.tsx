@@ -1,5 +1,6 @@
 "use client"
 import { useAuth } from "@/components/auth/auth-provider"
+import { useLanguage } from "@/components/language-provider"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Bot, Zap, History, Plus } from "lucide-react"
@@ -14,6 +15,7 @@ interface ChatHeaderProps {
 
 export function ChatHeader({ onToggleHistory, onNewChat, showHistory, currentChatTitle }: ChatHeaderProps) {
   const { user } = useAuth()
+  const { t } = useLanguage()
 
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-lg">
@@ -23,7 +25,7 @@ export function ChatHeader({ onToggleHistory, onNewChat, showHistory, currentCha
             <Link href="/dashboard">
               <Button variant="ghost" size="sm" className="gap-2">
                 <ArrowLeft className="w-4 h-4" />
-                Dashboard
+                {t("common.back")}
               </Button>
             </Link>
             <div className="flex items-center space-x-3">

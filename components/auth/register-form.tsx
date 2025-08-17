@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Eye, EyeOff, Mail, Lock, User, Github } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/components/auth/auth-provider"
+import { useLanguage } from "@/components/language-provider"
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -20,6 +22,8 @@ export function RegisterForm() {
     confirmPassword: "",
   })
   const router = useRouter()
+  const { register } = useAuth()
+  const { t } = useLanguage()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,17 +36,19 @@ export function RegisterForm() {
       return
     }
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-
-    // For demo purposes, accept any valid form
-    if (formData.name && formData.email && formData.password) {
-      localStorage.setItem("isAuthenticated", "true")
-      localStorage.setItem("user", JSON.stringify({ email: formData.email, name: formData.name }))
-      router.push("/dashboard")
+    try {
+      const success = await register(formData.name, formData.email, formData.password)
+      if (success) {
+        router.push("/profile-setup")
+      } else {
+        alert("Registration failed. Please try again.")
+      }
+    } catch (error) {
+      console.error("Registration error:", error)
+      alert("Registration failed. Please try again.")
+    } finally {
+      setIsLoading(false)
     }
-
-    setIsLoading(false)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,14 +62,14 @@ export function RegisterForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name">{t("auth.name")}</Label>
           <div className="relative">
             <User className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
             <Input
               id="name"
               name="name"
               type="text"
-              placeholder="Enter your full name"
+              placeholder={t("auth.name")}
               className="pl-10"
               value={formData.name}
               onChange={handleChange}
@@ -73,14 +79,14 @@ export function RegisterForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t("auth.email")}</Label>
           <div className="relative">
             <Mail className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
             <Input
               id="email"
               name="email"
               type="email"
-              placeholder="Enter your email"
+              placeholder={t("auth.email")}
               className="pl-10"
               value={formData.email}
               onChange={handleChange}
@@ -90,14 +96,14 @@ export function RegisterForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t("auth.password")}</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
             <Input
               id="password"
               name="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Create a password"
+              placeholder={t("auth.password")}
               className="pl-10 pr-10"
               value={formData.password}
               onChange={handleChange}
@@ -114,14 +120,14 @@ export function RegisterForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Label htmlFor="confirmPassword">{t("auth.password")}</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
             <Input
               id="confirmPassword"
               name="confirmPassword"
               type={showConfirmPassword ? "text" : "password"}
-              placeholder="Confirm your password"
+              placeholder={t("auth.password")}
               className="pl-10 pr-10"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -153,7 +159,7 @@ export function RegisterForm() {
       </div>
 
       <Button type="submit" className="w-full glow-primary" disabled={isLoading}>
-        {isLoading ? "Creating account..." : "Create Account"}
+        {isLoading ? t("common.loading") : t("auth.register.button")}
       </Button>
 
       <div className="relative">

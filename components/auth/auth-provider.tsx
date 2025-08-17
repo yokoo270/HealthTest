@@ -75,9 +75,11 @@ interface UsageStats {
 interface User {
   email: string
   name: string
-  age?: string
-  height?: string
-  weight?: string
+  age?: number
+  height?: number
+  weight?: number
+  gender?: "male" | "female" | "other"
+  profileComplete?: boolean
   fitnessLevel?: string
   goals?: string
   bio?: string
@@ -119,6 +121,7 @@ interface AuthContextType {
   register: (name: string, email: string, password: string) => Promise<boolean>
   logout: () => void
   updateUser: (userData: Partial<User>) => void
+  updateUserProfile: (userData: Partial<User>) => Promise<void>
   isLoading: boolean
   addWorkout: (workout: Omit<WorkoutEntry, "id">) => void
   addNutrition: (nutrition: Omit<NutritionEntry, "id">) => void
@@ -223,6 +226,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userData: User = {
           email,
           name: "Demo User",
+          profileComplete: false,
           aiPersonality: "friendly",
           preferredWorkoutTypes: ["strength", "cardio"],
           workoutDuration: 45,
@@ -274,6 +278,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const userData: User = {
           email,
           name,
+          profileComplete: false,
           aiPersonality: "friendly",
           preferredWorkoutTypes: ["strength", "cardio"],
           workoutDuration: 45,
@@ -316,6 +321,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const updateUser = (userData: Partial<User>) => {
+    if (user) {
+      const updatedUser = { ...user, ...userData }
+      setUser(updatedUser)
+      localStorage.setItem("user", JSON.stringify(updatedUser))
+    }
+  }
+
+  const updateUserProfile = async (userData: Partial<User>): Promise<void> => {
     if (user) {
       const updatedUser = { ...user, ...userData }
       setUser(updatedUser)
@@ -562,6 +575,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         register,
         logout,
         updateUser,
+        updateUserProfile,
         isLoading,
         addWorkout,
         addNutrition,

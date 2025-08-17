@@ -4,28 +4,28 @@ import { Star } from "lucide-react"
 
 const testimonials = [
   {
-    name: "Sarah Johnson",
-    role: "Fitness Enthusiast",
+    name: "Alex M.",
+    role: "Beta User",
     content:
-      "HealthMaxxing's AI coach completely transformed my workout routine. I've seen results I never thought possible!",
-    rating: 5,
-    avatar: "/woman-fitness-avatar.png",
+      "The AI-powered workout suggestions are helpful for structuring my routine. Still exploring all features.",
+    rating: 4,
+    avatar: "/placeholder.svg",
   },
   {
-    name: "Mike Chen",
-    role: "Professional Athlete",
+    name: "Jordan K.",
+    role: "Early Adopter",
     content:
-      "The real-time analytics and form corrections have taken my training to the next level. Incredible technology!",
-    rating: 5,
-    avatar: "/man-athlete-avatar.png",
+      "Good analytics dashboard. The progress tracking helps me stay consistent with my workouts.",
+    rating: 4,
+    avatar: "/placeholder.svg",
   },
   {
-    name: "Emma Davis",
-    role: "Busy Professional",
+    name: "Sam R.",
+    role: "Fitness Beginner",
     content:
-      "Finally, a fitness app that adapts to my crazy schedule. The AI knows exactly what I need, when I need it.",
-    rating: 5,
-    avatar: "/professional-woman-avatar.png",
+      "Easy to use interface. The personalized recommendations make it less intimidating to start.",
+    rating: 4,
+    avatar: "/placeholder.svg",
   },
 ]
 
@@ -38,10 +38,10 @@ export function TestimonialsSection() {
             Testimonials
           </Badge>
           <h2 className="text-4xl md:text-6xl font-serif font-black mb-6">
-            Loved by <span className="text-secondary">Thousands</span>
+            Early <span className="text-secondary">Reviews</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            See what our community says about their transformation journey
+            Feedback from our beta users and early community members
           </p>
         </div>
 

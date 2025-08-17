@@ -1,33 +1,74 @@
 import { streamText } from "ai"
-import { xai } from "@ai-sdk/xai"
+import { anthropic } from "@ai-sdk/anthropic"
 import type { NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
     const { message, context, history, userProfile } = await request.json()
 
-    console.log("[v0] API received request:", { message: message?.substring(0, 50), hasUserProfile: !!userProfile })
+    console.log("[Claude API] API received request:", { message: message?.substring(0, 50), hasUserProfile: !!userProfile })
 
     if (!message || !message.trim()) {
-      console.error("[v0] Empty message received")
+      console.error("[Claude API] Empty message received")
       return new Response("Message is required", { status: 400 })
     }
 
-    if (!process.env.XAI_API_KEY) {
-      console.error("[v0] XAI_API_KEY not found in environment variables")
+    if (!process.env.ANTHROPIC_API_KEY) {
+      console.error("[Claude API] ANTHROPIC_API_KEY not found in environment variables")
       return new Response("AI service not configured", { status: 500 })
     }
 
-    const systemPrompt = `You are HealthMaxx AI, an expert fitness and health coach with advanced memory capabilities and deep personalization. You provide highly customized workout routines, nutrition advice, and health guidance based on comprehensive user data.
+    // Check for medical/health topics that should be restricted
+    const medicalKeywords = [
+      'enfermedad', 'disease', 'sickness', 'dolor', 'pain', 'gripe', 'flu', 'covid', 'virus', 
+      'bacteria', 'infección', 'infection', 'medicina', 'medicine', 'prescripción', 'prescription',
+      'síntoma', 'symptom', 'diagnóstico', 'diagnosis', 'tratamiento médico', 'medical treatment',
+      'hospital', 'doctor', 'médico', 'pill', 'pastilla', 'medicamento', 'drug'
+    ]
+    
+    const messageText = message.toLowerCase()
+    const containsMedicalContent = medicalKeywords.some(keyword => messageText.includes(keyword.toLowerCase()))
+    
+    if (containsMedicalContent) {
+      const disclaimer = `Lo siento, pero no puedo proporcionar consejos médicos, diagnósticos o tratamientos por razones legales y de seguridad. Para cualquier preocupación de salud, síntoma o condición médica, te recomiendo encarecidamente que consultes con un profesional médico calificado.
+
+Puedo ayudarte con:
+- Rutinas de ejercicio generales
+- Consejos nutricionales básicos
+- Motivación fitness
+- Planificación de entrenamientos
+- Seguimiento de objetivos fitness
+
+¿Hay algún aspecto del fitness o la nutrición en el que pueda ayudarte hoy?`
+      
+      return new Response(disclaimer, { 
+        status: 200,
+        headers: { 'Content-Type': 'text/plain' }
+      })
+    }
+
+    const systemPrompt = `You are HealthMaxx AI, an expert fitness and health coach with advanced memory capabilities and deep personalization. You provide highly customized workout routines, nutrition advice, and general wellness guidance based on comprehensive user data.
+
+STRICT RESTRICTIONS:
+- NEVER provide medical advice, diagnoses, or treatment recommendations
+- NEVER discuss symptoms, diseases, medications, or medical conditions
+- NEVER suggest medical treatments or prescriptions
+- If asked about medical topics, redirect to consulting healthcare professionals
+- Focus ONLY on general fitness, nutrition, and wellness guidance
 
 CORE CAPABILITIES:
 - Create detailed, personalized workout routines with exercises, sets, reps, and rest periods
 - Generate comprehensive nutrition plans and meal recommendations
-- Provide health and wellness advice tailored to individual needs
-- Track progress and suggest improvements based on user data
+- Provide general wellness advice tailored to individual fitness needs
+- Track fitness progress and suggest improvements based on user data
 - Motivate and encourage users with personalized messaging
 - Remember previous conversations and build upon them
 - Adapt all recommendations based on user's complete profile and preferences
+
+WHEN CITING SOURCES:
+- When providing fitness or nutrition information from research, always include sources
+- Format sources as: "According to [Source Name/Study] (Year): [information]"
+- Prefer reputable sources like: scientific journals, certified fitness organizations, nutrition research
 
 USER CONTEXT: ${context || "No specific context provided"}
 
@@ -40,6 +81,7 @@ Personal Info:
 - Age: ${userProfile.age || "Not specified"}
 - Height: ${userProfile.height || "Not specified"}cm
 - Weight: ${userProfile.weight || "Not specified"}kg
+- Gender: ${userProfile.gender || "Not specified"}
 - Fitness Level: ${userProfile.fitnessLevel || "Not specified"}
 - Primary Goals: ${userProfile.goals || "Not specified"}
 
@@ -68,31 +110,78 @@ Use this conversation history to provide contextual, continuous responses that b
 
 RESPONSE GUIDELINES:
 - Always personalize responses based on the user's complete profile
-- Reference their specific goals, equipment, and preferences
+- Reference their specific goals, equipment, and preferences when available
 - Adjust your personality to match their preferred AI style (${userProfile?.aiPersonality || "friendly"})
 - When suggesting workouts, consider their preferred types and duration
 - When discussing nutrition, respect their dietary preferences
 - Be encouraging and motivational while staying true to their preferred interaction style
 - Format workout routines clearly with exercise names, sets, reps, and special instructions
 - Provide actionable, specific advice rather than generic recommendations
-- ALWAYS provide a complete, helpful response - never send empty or whitespace-only responses`
+- Include source citations when referencing scientific information
+- ALWAYS provide a complete, helpful response - never send empty or whitespace-only responses
+- Remember: NO MEDICAL ADVICE - redirect to healthcare professionals for any medical concerns`
 
-    console.log("[v0] Calling xAI with model grok-4")
+    console.log("[Claude API] Calling Claude with model claude-3-5-haiku-20241022")
 
-    const result = streamText({
-      model: xai("grok-4", {
-        apiKey: process.env.XAI_API_KEY,
-      }),
-      prompt: message.trim(),
-      system: systemPrompt,
-      temperature: 0.7,
-      maxTokens: 1200,
+    try {
+      const result = streamText({
+        model: anthropic("claude-3-5-haiku-20241022", {
+          apiKey: process.env.ANTHROPIC_API_KEY,
+        }),
+        prompt: message.trim(),
+        system: systemPrompt,
+        temperature: 0.7,
+        maxTokens: 1200,
+      })
+
+      console.log("[Claude API] Streaming response initiated")
+      return result.toTextStreamResponse()
+    } catch (apiError: any) {
+      console.error("[Claude API] API Error:", apiError)
+
+      // Handle specific API errors
+      if (apiError.message?.includes('credit balance')) {
+        // Provide a helpful fallback response instead of just an error
+        const fallbackMessage = `I'm currently experiencing technical difficulties with my AI service. However, I can still help you with some basic guidance:
+
+**For Workouts:**
+- Try a basic full-body routine: 3 sets of push-ups, squats, lunges, and planks
+- Aim for 30-45 minutes of exercise 3-4 times per week
+- Start with bodyweight exercises and gradually increase intensity
+
+**For Nutrition:**
+- Focus on whole foods: lean proteins, vegetables, fruits, and whole grains
+- Stay hydrated with 8+ glasses of water daily
+- Eat balanced meals with protein, carbs, and healthy fats
+
+**General Tips:**
+- Get 7-9 hours of sleep per night
+- Track your progress with photos and measurements
+- Stay consistent with your routine
+
+For personalized advice, please try again later when my AI service is restored.`
+
+        return new Response(fallbackMessage, {
+          status: 200,
+          headers: { 'Content-Type': 'text/plain' }
+        })
+      }
+
+      // Generic API error
+      const errorMessage = "I'm experiencing technical difficulties. Please try again in a moment."
+      return new Response(errorMessage, {
+        status: 200,
+        headers: { 'Content-Type': 'text/plain' }
+      })
+    }
+  } catch (error: any) {
+    console.error("[Claude API] Error generating AI response:", error)
+
+    // Return a user-friendly error message as plain text (not streaming)
+    const errorMessage = "I'm currently experiencing technical difficulties. Please try again in a moment."
+    return new Response(errorMessage, {
+      status: 200,
+      headers: { 'Content-Type': 'text/plain' }
     })
-
-    console.log("[v0] Streaming response initiated")
-    return result.toTextStreamResponse()
-  } catch (error) {
-    console.error("[v0] Error generating AI response:", error)
-    return new Response("Failed to generate response", { status: 500 })
   }
 }

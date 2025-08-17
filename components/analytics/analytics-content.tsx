@@ -1,5 +1,7 @@
 "use client"
 import { useState } from "react"
+import { useAuth } from "@/components/auth/auth-provider"
+import { useLanguage } from "@/components/language-provider"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -12,6 +14,13 @@ import { Activity, Target, Flame, Heart, Dumbbell, Clock, Award } from "lucide-r
 
 export function AnalyticsContent() {
   const [selectedPeriod, setSelectedPeriod] = useState("7d")
+  const { user, getWeekStats, getTodayStats } = useAuth()
+  const { t } = useLanguage()
+
+  const weekStats = getWeekStats()
+  const todayStats = getTodayStats()
+  const currentStreak = user?.currentStreak || 0
+  const workoutHistory = user?.workoutHistory || []
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,8 +30,8 @@ export function AnalyticsContent() {
         {/* Period Selector */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-serif font-black mb-2">Health Analytics</h1>
-            <p className="text-muted-foreground">Track your progress and optimize your performance</p>
+            <h1 className="text-3xl font-serif font-black mb-2">{t("analytics.title")}</h1>
+            <p className="text-muted-foreground">{t("analytics.subtitle")}</p>
           </div>
           <div className="flex space-x-2">
             {["7d", "30d", "90d", "1y"].map((period) => (
@@ -47,8 +56,8 @@ export function AnalyticsContent() {
                 <Activity className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium">Workouts</span>
               </div>
-              <div className="text-2xl font-bold">24</div>
-              <div className="text-xs text-green-500">+12% vs last period</div>
+              <div className="text-2xl font-bold">{weekStats.workouts}</div>
+              <div className="text-xs text-muted-foreground">{weekStats.workouts > 0 ? 'This week' : 'No workouts logged'}</div>
             </CardContent>
           </Card>
 
@@ -58,8 +67,8 @@ export function AnalyticsContent() {
                 <Flame className="w-4 h-4 text-secondary" />
                 <span className="text-sm font-medium">Calories</span>
               </div>
-              <div className="text-2xl font-bold">8.2k</div>
-              <div className="text-xs text-green-500">+8% vs last period</div>
+              <div className="text-2xl font-bold">{weekStats.calories}</div>
+              <div className="text-xs text-muted-foreground">Calories burned</div>
             </CardContent>
           </Card>
 
@@ -69,8 +78,8 @@ export function AnalyticsContent() {
                 <Clock className="w-4 h-4 text-accent" />
                 <span className="text-sm font-medium">Duration</span>
               </div>
-              <div className="text-2xl font-bold">18h</div>
-              <div className="text-xs text-green-500">+15% vs last period</div>
+              <div className="text-2xl font-bold">{Math.round((weekStats.workouts * 45) / 60)}h</div>
+              <div className="text-xs text-muted-foreground">Estimated duration</div>
             </CardContent>
           </Card>
 
@@ -80,8 +89,8 @@ export function AnalyticsContent() {
                 <Heart className="w-4 h-4 text-primary" />
                 <span className="text-sm font-medium">Avg HR</span>
               </div>
-              <div className="text-2xl font-bold">142</div>
-              <div className="text-xs text-muted-foreground">bpm</div>
+              <div className="text-2xl font-bold">0</div>
+              <div className="text-xs text-muted-foreground">No data</div>
             </CardContent>
           </Card>
 
@@ -91,8 +100,8 @@ export function AnalyticsContent() {
                 <Target className="w-4 h-4 text-secondary" />
                 <span className="text-sm font-medium">Goals</span>
               </div>
-              <div className="text-2xl font-bold">85%</div>
-              <div className="text-xs text-green-500">+5% vs last period</div>
+              <div className="text-2xl font-bold">{(user?.userGoals?.filter(g => g.completed).length || 0)}/{(user?.userGoals?.length || 0)}</div>
+              <div className="text-xs text-muted-foreground">Goals completed</div>
             </CardContent>
           </Card>
 
@@ -102,7 +111,7 @@ export function AnalyticsContent() {
                 <Award className="w-4 h-4 text-accent" />
                 <span className="text-sm font-medium">Streak</span>
               </div>
-              <div className="text-2xl font-bold">12</div>
+              <div className="text-2xl font-bold">{currentStreak}</div>
               <div className="text-xs text-muted-foreground">days</div>
             </CardContent>
           </Card>
@@ -165,18 +174,17 @@ export function AnalyticsContent() {
                   <CardTitle>Recent Workouts</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {[
-                    { name: "Upper Body Strength", date: "Today", duration: "45 min", calories: 320 },
-                    { name: "HIIT Cardio", date: "Yesterday", duration: "30 min", calories: 280 },
-                    { name: "Full Body", date: "2 days ago", duration: "60 min", calories: 450 },
-                    { name: "Yoga Flow", date: "3 days ago", duration: "40 min", calories: 180 },
-                  ].map((workout, index) => (
+                  {workoutHistory.length === 0 ? (
+                    <div className="p-3 text-center text-muted-foreground">
+                      No workouts logged yet
+                    </div>
+                  ) : workoutHistory.slice(-4).reverse().map((workout, index) => (
                     <div key={index} className="p-3 bg-card border border-border rounded-lg">
-                      <div className="font-medium text-sm">{workout.name}</div>
-                      <div className="text-xs text-muted-foreground">{workout.date}</div>
+                      <div className="font-medium text-sm">{workout.type}</div>
+                      <div className="text-xs text-muted-foreground">{new Date(workout.date).toLocaleDateString()}</div>
                       <div className="flex justify-between text-xs mt-1">
-                        <span>{workout.duration}</span>
-                        <span>{workout.calories} cal</span>
+                        <span>{workout.duration} min</span>
+                        <span>{workout.caloriesBurned} cal</span>
                       </div>
                     </div>
                   ))}
