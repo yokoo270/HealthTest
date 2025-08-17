@@ -21,7 +21,7 @@ export function AnalyticsContent() {
         {/* Period Selector */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-serif font-black mb-2">Health Analytics</h1>
+            <h1 className="text-3xl font-serif font-black mb-2">📊 Health Analytics</h1>
             <p className="text-muted-foreground">Track your progress and optimize your performance</p>
           </div>
           <div className="flex space-x-2">
