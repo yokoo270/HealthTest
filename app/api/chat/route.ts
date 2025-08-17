@@ -100,24 +100,24 @@ RESPONSE GUIDELINES:
 - Be encouraging and motivational while staying true to their preferred interaction style
 - Format workout routines clearly with exercise names, sets, reps, and special instructions
 - Provide actionable, specific advice rather than generic recommendations
+- NEVER provide medical advice or answer health-related medical questions
+- Always cite sources when referencing external information
 - ALWAYS provide a complete, helpful response - never send empty or whitespace-only responses`
 
-    console.log("[v0] Calling xAI with model grok-4")
+    console.log("[HealthMaxx] Calling Claude API")
 
     const result = streamText({
-      model: xai("grok-4", {
-        apiKey: process.env.XAI_API_KEY,
-      }),
+      model: anthropic("claude-3-5-sonnet-20241022"),
       prompt: message.trim(),
       system: systemPrompt,
       temperature: 0.7,
       maxTokens: 1200,
     })
 
-    console.log("[v0] Streaming response initiated")
+    console.log("[HealthMaxx] Streaming response initiated")
     return result.toTextStreamResponse()
   } catch (error) {
-    console.error("[v0] Error generating AI response:", error)
+    console.error("[HealthMaxx] Error generating AI response:", error)
     return new Response("Failed to generate response", { status: 500 })
   }
 }
