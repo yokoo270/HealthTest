@@ -1,26 +1,38 @@
 "use client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Calendar } from "lucide-react"
+import { useAuth } from "@/components/auth/auth-provider"
 
 export function WorkoutHeatmap() {
-  // Generate sample data for the last 12 weeks
+  const { user } = useAuth()
   const weeks = 12
   const daysPerWeek = 7
   const today = new Date()
 
   const generateHeatmapData = () => {
     const data = []
+    const workoutsByDate = new Map()
+
+    // Create a map of workout dates with their intensities (number of workouts per day)
+    if (user?.workoutHistory) {
+      user.workoutHistory.forEach(workout => {
+        const date = workout.date.split("T")[0] // Get just the date part
+        workoutsByDate.set(date, (workoutsByDate.get(date) || 0) + 1)
+      })
+    }
+
     for (let week = weeks - 1; week >= 0; week--) {
       const weekData = []
       for (let day = 0; day < daysPerWeek; day++) {
         const date = new Date(today)
         date.setDate(date.getDate() - (week * 7 + (6 - day)))
+        const dateStr = date.toISOString().split("T")[0]
 
-        // Simulate workout intensity (0-4)
-        const intensity = Math.random() > 0.3 ? Math.floor(Math.random() * 4) + 1 : 0
+        // Get real workout intensity for this date, or 0 if no workouts
+        const intensity = Math.min(workoutsByDate.get(dateStr) || 0, 4) // Cap at 4 for display
 
         weekData.push({
-          date: date.toISOString().split("T")[0],
+          date: dateStr,
           intensity,
           day: date.getDay(),
         })
