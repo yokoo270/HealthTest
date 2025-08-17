@@ -3,9 +3,10 @@ import { useAuth } from "@/components/auth/auth-provider"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { LogOut, User, Activity, Target, TrendingUp, MessageCircle, Bot, BarChart3, Home } from "lucide-react"
+import { LogOut, Flame, Activity, Target, TrendingUp, MessageCircle, Bot, BarChart3, Home, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { useLanguage } from "@/components/language-provider"
 import { QuickLogModal } from "@/components/tracking/quick-log-modal"
 import { UsageIndicator } from "@/components/subscription/usage-indicator"
 import { ExportModal } from "@/components/data-export/export-modal"
@@ -13,6 +14,7 @@ import { ExportModal } from "@/components/data-export/export-modal"
 export function DashboardContent() {
   const { user, logout, getTodayStats, getWeekStats } = useAuth()
   const router = useRouter()
+  const { t } = useLanguage()
 
   const handleLogout = () => {
     logout()
@@ -29,14 +31,14 @@ export function DashboardContent() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-serif font-black">Welcome back, {user?.name}!</h1>
+              <h1 className="text-2xl font-serif font-black">{t("dashboard.welcome")}, {user?.name}!</h1>
               <p className="text-muted-foreground">Ready to maximize your health today?</p>
             </div>
             <div className="flex items-center space-x-2">
               <Link href="/">
                 <Button variant="outline" className="gap-2 bg-transparent">
-                  <Home className="w-4 h-4" />
-                  Home
+                  <ArrowLeft className="w-4 h-4" />
+                  {t("common.back")}
                 </Button>
               </Link>
               <ExportModal>
@@ -46,7 +48,7 @@ export function DashboardContent() {
               </ExportModal>
               <Button variant="outline" onClick={handleLogout} className="gap-2 bg-transparent">
                 <LogOut className="w-4 h-4" />
-                Logout
+                {t("nav.logout")}
               </Button>
             </div>
           </div>
@@ -96,8 +98,8 @@ export function DashboardContent() {
                     <BarChart3 className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-serif font-black">Health Analytics</h2>
-                    <p className="text-muted-foreground">Track your progress with detailed insights</p>
+                    <h2 className="text-xl font-serif font-black">{t("analytics.title")}</h2>
+                    <p className="text-muted-foreground">{t("analytics.subtitle")}</p>
                   </div>
                 </div>
                 <Link href="/analytics">
@@ -115,7 +117,7 @@ export function DashboardContent() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <Card className="border-primary/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Today's Workouts</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("dashboard.stats.workouts")}</CardTitle>
               <Activity className="h-4 w-4 text-primary" />
             </CardHeader>
             <CardContent>
@@ -128,7 +130,7 @@ export function DashboardContent() {
 
           <Card className="border-secondary/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Calories Burned</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("dashboard.stats.calories")}</CardTitle>
               <TrendingUp className="h-4 w-4 text-secondary" />
             </CardHeader>
             <CardContent>
@@ -141,24 +143,24 @@ export function DashboardContent() {
 
           <Card className="border-accent/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Goals Progress</CardTitle>
+              <CardTitle className="text-sm font-medium">{t("dashboard.stats.goals")}</CardTitle>
               <Target className="h-4 w-4 text-accent" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{weekStats.goalsAchieved}/10</div>
+              <div className="text-2xl font-bold">{weekStats.goalsAchieved}/{(user?.userGoals?.length || 0)}</div>
               <p className="text-xs text-muted-foreground">
                 {weekStats.goalsAchieved > 0 ? "Goals completed" : "Set your first goal"}
               </p>
             </CardContent>
           </Card>
 
-          <Card className="border-primary/20">
+          <Card className="border-red-500/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Current Streak</CardTitle>
-              <User className="h-4 w-4 text-primary" />
+              <CardTitle className="text-sm font-medium">{t("dashboard.stats.streak")}</CardTitle>
+              <Flame className="h-4 w-4 text-red-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{currentStreak} days</div>
+              <div className="text-2xl font-bold text-red-500">{currentStreak} days</div>
               <p className="text-xs text-muted-foreground">
                 {currentStreak > 0 ? "Keep it up!" : "Start your streak today"}
               </p>
