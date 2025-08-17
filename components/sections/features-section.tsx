@@ -1,65 +1,69 @@
+"use client"
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Bot, BarChart3, Users, Zap, Target, Shield } from "lucide-react"
-
-const features = [
-  {
-    icon: Bot,
-    title: "AI Personal Trainer",
-    description: "Advanced AI creates personalized workout routines that adapt to your progress and preferences",
-    color: "text-primary",
-    bgColor: "from-primary/10 to-primary/5",
-  },
-  {
-    icon: BarChart3,
-    title: "Real-Time Analytics",
-    description: "Track your progress with detailed analytics and insights powered by machine learning",
-    color: "text-secondary",
-    bgColor: "from-secondary/10 to-secondary/5",
-  },
-  {
-    icon: Users,
-    title: "Community Challenges",
-    description: "Join global fitness challenges and compete with users worldwide",
-    color: "text-accent",
-    bgColor: "from-accent/10 to-accent/5",
-  },
-  {
-    icon: Zap,
-    title: "Instant Feedback",
-    description: "Get real-time form corrections and performance feedback during workouts",
-    color: "text-primary",
-    bgColor: "from-primary/10 to-primary/5",
-  },
-  {
-    icon: Target,
-    title: "Goal Optimization",
-    description: "AI-driven goal setting and achievement tracking for maximum results",
-    color: "text-secondary",
-    bgColor: "from-secondary/10 to-secondary/5",
-  },
-  {
-    icon: Shield,
-    title: "Injury Prevention",
-    description: "Smart algorithms detect potential injury risks and adjust workouts accordingly",
-    color: "text-accent",
-    bgColor: "from-accent/10 to-accent/5",
-  },
-]
+import { useLanguage } from "@/components/language-provider"
 
 export function FeaturesSection() {
+  const { t } = useLanguage()
+
+  const features = [
+    {
+      icon: Bot,
+      titleKey: "features.ai.title",
+      descriptionKey: "features.ai.description",
+      color: "text-primary",
+      bgColor: "from-primary/10 to-primary/5",
+    },
+    {
+      icon: BarChart3,
+      titleKey: "features.analytics.title",
+      descriptionKey: "features.analytics.description",
+      color: "text-secondary",
+      bgColor: "from-secondary/10 to-secondary/5",
+    },
+    {
+      icon: Users,
+      titleKey: "features.community.title",
+      descriptionKey: "features.community.description",
+      color: "text-accent",
+      bgColor: "from-accent/10 to-accent/5",
+    },
+    {
+      icon: Zap,
+      titleKey: "features.feedback.title",
+      descriptionKey: "features.feedback.description",
+      color: "text-primary",
+      bgColor: "from-primary/10 to-primary/5",
+    },
+    {
+      icon: Target,
+      titleKey: "features.goals.title",
+      descriptionKey: "features.goals.description",
+      color: "text-secondary",
+      bgColor: "from-secondary/10 to-secondary/5",
+    },
+    {
+      icon: Shield,
+      titleKey: "features.safety.title",
+      descriptionKey: "features.safety.description",
+      color: "text-accent",
+      bgColor: "from-accent/10 to-accent/5",
+    },
+  ]
+
   return (
     <section id="features" className="py-20 px-4">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <Badge variant="outline" className="mb-4">
-            Features
+            {t("nav.features")}
           </Badge>
           <h2 className="text-4xl md:text-6xl font-serif font-black mb-6">
-            Powered by <span className="text-primary">Intelligence</span>
+            {t("features.section.title")}
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Experience the next generation of fitness technology with features designed to maximize your potential
+            {t("features.section.subtitle")}
           </p>
         </div>
 
@@ -75,8 +79,8 @@ export function FeaturesSection() {
                 >
                   <feature.icon className={`w-6 h-6 ${feature.color}`} />
                 </div>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
-                <CardDescription className="text-base">{feature.description}</CardDescription>
+                <CardTitle className="text-xl">{t(feature.titleKey)}</CardTitle>
+                <CardDescription className="text-base">{t(feature.descriptionKey)}</CardDescription>
               </CardHeader>
             </Card>
           ))}
